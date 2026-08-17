@@ -13,14 +13,6 @@ descriptors and ADMET properties of small molecules.
 intuitive dashboard to support the prioritization of compounds in early-stage
 drug discovery. It integrates data exported from:
 
-- **SwissADME** — upload a CSV and apply drug-likeness filters directly.
-- **ADMETlab 3.0** — upload a CSV; properties are mapped and ADMET
-  probabilities converted to categorical labels.
-- **Deep-PK** — upload a CSV; missing physicochemical descriptors are
-  calculated on-the-fly from SMILES using the Chemistry Development Kit (CDK).
-- **CDK & webchem** — retrieve canonical SMILES from PubChem and calculate
-  descriptors locally with CDK.
-
 ### Features
 
 - Drug-likeness filters: **Lipinski**, **Veber**, **Ghose**, **Egan**,
