@@ -92,16 +92,16 @@ By Xavier Clemente Garcia Cevallos :3 "Hecho con amor para la ciencia"
 Useful links:
 \itemize{
   \item \url{https://github.com/xavierclementegarcia/admetshiny}
-  \item Report bugs at \url{https://github.com/xavierclementegarcia/admetshiny/issues}
+  \item Report bugs at \url{https://github.com/xavierclementegarcia/admetshiny-package/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0009-0009-0009-0009}{ORCID})
+\strong{Maintainer}: Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0000-0002-3284-2363}{ORCID})
 
 Authors:
 \itemize{
-  \item Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0009-0009-0009-0009}{ORCID})
+  \item Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0000-0002-3284-2363}{ORCID})
 }
 
 }

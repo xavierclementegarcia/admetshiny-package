@@ -39,7 +39,7 @@ You can install the development version from GitHub:
 
 ```r
 # install.packages("remotes")
-remotes::install_github("xavierclementegarcia/admetshiny")
+remotes::install_github("xavierclementegarcia/admetshiny-package")
 ```
 
 The optional CDK-based descriptor calculation requires the `rcdk` package,
@@ -76,4 +76,4 @@ plotBoiledEgg(filtered)
 
 ## License
 
-CC BY 4.0
+MIT License
