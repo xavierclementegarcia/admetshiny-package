@@ -45,20 +45,6 @@ Launch the interactive application:
 admetshiny::run_app()
 ```
 
-Use the computational functions programmatically:
-
-```r
-library(admetshiny)
-
-# Normalize a SwissADME export and apply the Lipinski filter
-d <- read.csv("swissadme.csv", check.names = FALSE)
-d <- fixSwissADME(d)
-filtered <- applyFilters(d, filters = c("Lipinski", "Veber"))
-
-# Plot the BOILED-Egg
-plotBoiledEgg(filtered)
-```
-
 ## References
 
 - Daina, A., Michielin, O., & Zoete, V. (2017). *Scientific Reports*, 7(1), 42717.
