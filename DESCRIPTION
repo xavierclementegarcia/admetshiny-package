@@ -3,7 +3,7 @@ Type: Package
 Title: Interactive ADMET and Drug-Likeness Analysis of Small Molecules
 Version: 1.0.0
 Date: 2025-01-01
-Authors@R: person("Xavier Clemente", "Garcia Cevallos", email = "xgarcia@unicauca.edu.co", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-3284-2363"))
+Authors@R: person("Xavier Clemente", "Garcia Cevallos", email = "xgarcia@unicauca.edu.co", role = c("aut", "cre"), comment = c(ORCID = "0009-0009-0009-0009"))
 Maintainer: Xavier Clemente Garcia Cevallos <xgarcia@unicauca.edu.co>
 Description: Provides an interactive 'shiny' application and a toolbox of
     R functions for the management, calculation, filtering, visualization and
@@ -17,7 +17,7 @@ Description: Provides an interactive 'shiny' application and a toolbox of
     discovery.
 License: MIT + file LICENSE
 URL: https://github.com/xavierclementegarcia/admetshiny
-BugReports: https://github.com/xavierclementegarcia/admetshiny-package/issues
+BugReports: https://github.com/xavierclementegarcia/admetshiny/issues
 Encoding: UTF-8
 Depends:
     R (>= 3.5.0)

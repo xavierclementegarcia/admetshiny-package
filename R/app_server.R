@@ -40,6 +40,25 @@ app_server <- function(input, output, session) {
   observeEvent(input$go_report,     updateNavbarPage(session, "main_nav", selected = "report"))
   observeEvent(input$back_home_cdk, updateNavbarPage(session, "main_nav", selected = "home"))
 
+  ## ---- Send CDK results to ADMET Master Manager (CDK Step 4 button) ----
+  ## Passes the computed CDK descriptor table to the Master module as if it
+  ## had been uploaded there, so the user can re-map columns and re-apply
+  ## filters in the Master workflow. cdk_results_rv / master_raw_rv are
+  ## reactiveVals created later in the server function; R closures capture
+  ## them by reference, so they are available when the handler body runs.
+  observeEvent(input$send_to_filter, {
+    req(cdk_results_rv())
+    d <- cdk_results_rv()
+    master_raw_rv(d)
+    master_mapped_rv(NULL)
+    master_smiles_col_rv(detectSMILESColumn(d))
+    showNotification(
+      sprintf("CDK dataset (%d rows, %d cols) sent to ADMET Master Manager. Go to Step 2 to map columns.",
+              nrow(d), ncol(d)),
+      type = "message", duration = 6)
+    updateNavbarPage(session, "main_nav", selected = "admet_master")
+  })
+
   ## ============================ CDK / webchem ============================
   smiles_table_rv <- reactiveVal(NULL)
   cdk_results_rv  <- reactiveVal(NULL)

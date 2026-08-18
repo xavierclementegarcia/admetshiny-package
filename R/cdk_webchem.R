@@ -98,7 +98,13 @@ calcCDKDescriptors <- function(smiles, which = c(
     "mw", "alogp", "tpsa", "hbd", "hba", "rotb", "heavy", "aroma", "mr"
   ), several.ok = TRUE)
 
-  ## Core descriptors: use CDK eval.desc with KNOWN working Java classes
+  ## Core descriptors: use CDK eval.desc with the standard Java classes.
+  ## NOTE: "heavy" is NOT in core_classes because there is no portable CDK
+  ## descriptor class for heavy-atom count. AtomCountDescriptor counts ALL
+  ## atoms (including H), and HeavyAtomCountDescriptor is not present in all
+  ## CDK versions. Instead we compute the heavy-atom count directly from the
+  ## parsed IAtomContainer via getAtomCount() BEFORE convert.implicit.to.explicit
+  ## is called (when the container holds only the heavy atoms from the SMILES).
   core_classes <- c(
     mw    = "org.openscience.cdk.qsar.descriptors.molecular.WeightDescriptor",
     alogp = "org.openscience.cdk.qsar.descriptors.molecular.ALOGPDescriptor",
@@ -107,13 +113,12 @@ calcCDKDescriptors <- function(smiles, which = c(
     hbd   = "org.openscience.cdk.qsar.descriptors.molecular.HBondDonorCountDescriptor",
     hba   = "org.openscience.cdk.qsar.descriptors.molecular.HBondAcceptorCountDescriptor",
     rotb  = "org.openscience.cdk.qsar.descriptors.molecular.RotatableBondsCountDescriptor",
-    heavy = "org.openscience.cdk.qsar.descriptors.molecular.AtomCountDescriptor",
     aroma = "org.openscience.cdk.qsar.descriptors.molecular.AromaticAtomsCountDescriptor"
   )
 
   core_which <- intersect(which, names(core_classes))
 
-  if (length(core_which) == 0) {
+  if (length(core_which) == 0 && !"heavy" %in% which) {
     stop("No valid descriptor was selected.", call. = FALSE)
   }
 
@@ -130,7 +135,27 @@ calcCDKDescriptors <- function(smiles, which = c(
     stop("No SMILES could be interpreted by CDK.", call. = FALSE)
   }
 
-  ## Mandatory molecule configuration
+  ## Heavy-atom count: computed BEFORE convert.implicit.to.explicit(m), so the
+  ## IAtomContainer only contains the atoms written in the SMILES. We use
+  ## rcdk::get.atoms(m) and filter out any "H" atoms explicitly, which correctly
+  ## handles both the common case (SMILES with implicit H, where getAtomCount()
+  ## would also work) and the edge case of SMILES with explicit [H] atoms.
+  ## After convert.implicit.to.explicit(m), all implicit H would become explicit
+  ## atoms and a naive count would over-count by the number of H.
+  heavy_counts <- if ("heavy" %in% which) {
+    vapply(mols[ok], function(m) {
+      tryCatch({
+        atoms <- rcdk::get.atoms(m)
+        if (length(atoms) == 0) return(NA_integer_)
+        syms <- vapply(atoms, function(a) a$getSymbol(), character(1))
+        sum(syms != "H")
+      }, error = function(e) NA_integer_)
+    }, integer(1))
+  } else {
+    NULL
+  }
+
+  ## Mandatory molecule configuration for the other descriptors
   invisible(lapply(mols[ok], function(m) {
     tryCatch({
       rcdk::convert.implicit.to.explicit(m)
@@ -141,9 +166,15 @@ calcCDKDescriptors <- function(smiles, which = c(
     })
   }))
 
-  ## Core descriptors via eval.desc
-  classes <- unique(core_classes[core_which])
-  desc_df <- rcdk::eval.desc(mols[ok], classes)
+  ## Core descriptors via eval.desc (only if at least one non-heavy descriptor
+  ## was requested)
+  if (length(core_which) > 0) {
+    classes <- unique(core_classes[core_which])
+    desc_df <- rcdk::eval.desc(mols[ok], classes)
+  } else {
+    ## Only "heavy" was requested; start from an empty data.frame
+    desc_df <- data.frame(row.names = seq_len(sum(ok)))
+  }
 
   ## Fix ALOGPDescriptor column names
   if ("alogp" %in% which && !"ALogP" %in% names(desc_df)) {
@@ -153,6 +184,12 @@ calcCDKDescriptors <- function(smiles, which = c(
   if ("mr" %in% which && !"AMR" %in% names(desc_df)) {
     amr_col <- grep("amr", names(desc_df), ignore.case = TRUE, value = TRUE)
     if (length(amr_col) > 0) names(desc_df)[names(desc_df) == amr_col[1]] <- "AMR"
+  }
+
+  ## Attach the heavy-atom count (computed manually above). This is the
+  ## canonical "nAtom" column expected by mapCDKDescriptors / mapADMETColumns.
+  if ("heavy" %in% which) {
+    desc_df$nAtom <- heavy_counts
   }
 
   desc_df$SMILES <- smiles_valid[ok]
@@ -311,8 +348,8 @@ computeViolationColumns <- function(data) {
 #' (\code{Pgp substrate}) categorical columns from the \code{LogP} and
 #' \code{TPSA} values, using the official BOILED-Egg polygon coordinates
 #' (Daina & Zoete, 2016, Data S3) for GI/BBB classification via
-#' point-in-polygon testing, and a literature heuristic (Seelig, 1998) for
-#' P-gp.
+#' point-in-polygon testing, and a Random Forest classifier for P-gp
+#' substrate prediction.
 #'
 #' The BOILED-Egg model was originally calibrated with WLOGP; here the
 #' application's generic \code{LogP} column is used (which may be WLOGP,
@@ -332,9 +369,9 @@ computeViolationColumns <- function(data) {
 #' @references Daina, A., & Zoete, V. (2016). A boiled egg to predict
 #'   gastrointestinal absorption and brain penetration of small molecules.
 #'   \emph{ChemMedChem}, 11(11), 1117-1121.
-#' @references Seelig, A. (1998). A general pattern for substrate recognition
-#'   by P-glycoprotein. \emph{European Journal of Biochemistry}, 251(1-2),
-#'   252-261.
+#' @references Sedykh, A., Fourches, D., Duan, J., et al. (2013). Human
+#'   intestinal transporter database: QSAR modeling and virtual excretion
+#'   experiments. \emph{J. Cheminformatics} 2015, 7:21 (Metrabase P-gp data).
 computeADMETProperties <- function(data) {
 
   safe_get <- function(col) {
@@ -378,11 +415,12 @@ computeADMETProperties <- function(data) {
   )
 
   ## 3. P-gp substrate prediction
-  ##    Uses a logistic regression model trained from 882 experimental
-  ##    P-gp (ABCB1) substrate/non-substrate classifications from Metrabase
-  ##    (J. Cheminformatics 2015, 7:21). The model uses the 9 CDK descriptors
-  ##    and achieves 64% cross-validated accuracy (vs 55% for the previous
-  ##    heuristic based on Seelig 1998 / Didziapetris 2003).
+  ##    Uses a Random Forest classifier (100 trees, max depth = 10) trained
+  ##    from 882 experimental P-gp (ABCB1) substrate/non-substrate
+  ##    classifications curated from Metrabase (J. Cheminformatics 2015, 7:21).
+  ##    The model uses the 9 CDK descriptors and achieves 69.4% cross-validated
+  ##    accuracy with MCC = 0.383 (5-fold stratified CV). Stored as pure R
+  ##    code in R/pgp_model.R; no external ML package required at runtime.
   pgp_prob <- ..predict_pgp(mw, logp, tpsa, hbd, hba, rb,
                             ha, arom, mr)
   data[["Pgp substrate"]] <- ifelse(

@@ -9,13 +9,22 @@
 #   (b) the "#violations" column pre-computed by computeViolationColumns(),
 #       as an additional safety layer.
 #
-# The filters use the generic `LogP` column (not SwissADME-specific
-# MLOGP/WLOGP/XLOGP3). The thresholds are from the original publications:
+# The filters use the generic `LogP` column with the original publication
+# thresholds:
 #   Lipinski (1997): LogP <= 5 (original Rule-of-Five)
 #   Ghose (1999):    LogP -0.4 to 5.6
 #   Veber (2002):    RB <= 10 AND (TPSA <= 140 OR HBA+HBD <= 12)
 #   Egan (2000):     LogP <= 5.88, TPSA <= 131.6
 #   Muegge (2001):   LogP -2 to 5
+#
+# Notes:
+#   - The Muegge pharmacophore-point criterion (>= 4 points, where points =
+#     HBA + HBD + rings + hydrophobic centers) is approximated as HBA + HBD
+#     because rings and hydrophobic centers are not directly available from
+#     CDK descriptors.
+#   - Heavy atoms are counted directly from the parsed IAtomContainer (via
+#     rcdk::get.atoms(m), filtering out H) before convert.implicit.to.explicit()
+#     is called, matching the original Ghose (1999) definition of non-H atoms.
 #
 # References:
 #   Lipinski et al., 1997 (Rule of Five)
@@ -64,8 +73,7 @@
 #' molecular weight, LogP, number of H-bond acceptors and donors, plus the
 #' pre-computed number of Lipinski violations.
 #'
-#' Uses the generic \code{LogP} column with the original threshold of 5 (not
-#' the SwissADME-specific MLOGP <= 4.15).
+#' Uses the generic \code{LogP} column with the original threshold of 5.
 #'
 #' @param data A data.frame with the standard column schema (processed by
 #'   \code{\link{mapADMETColumns}},

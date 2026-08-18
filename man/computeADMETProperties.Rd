@@ -19,8 +19,8 @@ barrier permeability (\code{BBB permeant}) and P-glycoprotein substrate
 (\code{Pgp substrate}) categorical columns from the \code{LogP} and
 \code{TPSA} values, using the official BOILED-Egg polygon coordinates
 (Daina & Zoete, 2016, Data S3) for GI/BBB classification via
-point-in-polygon testing, and a literature heuristic (Seelig, 1998) for
-P-gp.
+point-in-polygon testing, and a Random Forest classifier for P-gp
+substrate prediction.
 }
 \details{
 The BOILED-Egg model was originally calibrated with WLOGP; here the
@@ -40,7 +40,7 @@ Daina, A., & Zoete, V. (2016). A boiled egg to predict
 gastrointestinal absorption and brain penetration of small molecules.
 \emph{ChemMedChem}, 11(11), 1117-1121.
 
-Seelig, A. (1998). A general pattern for substrate recognition
-by P-glycoprotein. \emph{European Journal of Biochemistry}, 251(1-2),
-252-261.
+Sedykh, A., Fourches, D., Duan, J., et al. (2013). Human
+intestinal transporter database: QSAR modeling and virtual excretion
+experiments. \emph{J. Cheminformatics} 2015, 7:21 (Metrabase P-gp data).
 }

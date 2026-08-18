@@ -10,7 +10,7 @@
 ## data (Daina & Zoete, 2016, Data S3). The polygon coordinates are defined
 ## in R/boiled_egg_data.R as internal objects (.hia_polygon, .bbb_polygon).
 ##
-## Axis convention (matching SwissADME):
+## Axis convention:
 ##   X-axis = TPSA (0 to 200)
 ##   Y-axis = LogP (-2 to 7)
 ##
@@ -51,8 +51,8 @@
 #' \code{"Pgp substrate"} column is available.
 #'
 #' The BOILED-Egg model was originally calibrated with WLOGP; the application
-#' uses the generic \code{LogP} column as an approximation. The axes follow
-#' the SwissADME convention: TPSA on the x-axis, LogP on the y-axis.
+#' uses the generic \code{LogP} column as an approximation. The axes are
+#' TPSA on the x-axis and LogP on the y-axis.
 #'
 #' @param data A data.frame that must contain the columns \code{LogP} and
 #'   \code{TPSA}. A \code{"Pgp substrate"} column (with values "Yes"/"No") is
@@ -98,7 +98,7 @@ plotBoiledEgg <- function(data, logp_source = NULL) {
   data$HIA <- ..point_in_polygon(tpsa, logp, hia_poly)
   data$BBB <- ..point_in_polygon(tpsa, logp, bbb_poly)
 
-  ## P-gp substrate colours (SwissADME style)
+  ## P-gp substrate colours
   if ("Pgp substrate" %in% names(data)) {
     pgp_raw <- tolower(trimws(as.character(data[["Pgp substrate"]])))
     data$PGP <- ifelse(

@@ -9,11 +9,12 @@
 The \pkg{admetshiny} package provides an interactive Shiny application and a
 collection of R functions for the management, calculation, filtering,
 visualization and exploratory analysis of molecular descriptors and ADMET
-properties of small molecules.
-computes descriptors locally via the Chemistry
-Development Kit (CDK) through \pkg{rcdk}, and offers drug-likeness filters
-(Lipinski, Veber, Ghose, Egan, Muegge), the BOILED-Egg model, PCA, t-SNE,
-radar plots and Tanimoto/AGNES structural similarity clustering.
+properties of small molecules. It computes descriptors locally via the
+Chemistry Development Kit (CDK) through \pkg{rcdk}, and offers drug-likeness
+filters (Lipinski, Veber, Ghose, Egan, Muegge), the BOILED-Egg model, a
+P-glycoprotein substrate Random Forest classifier, PCA, t-SNE, UMAP,
+parallel coordinates, radar plots and Tanimoto/AGNES structural similarity
+clustering.
 }
 \details{
 To launch the interactive application simply run:
@@ -22,8 +23,8 @@ To launch the interactive application simply run:
 admetshiny::run_app()
 }
 
-The exported functions (filters, plots, data fixers and CDK helpers) can
-also be used programmatically in plain R scripts.
+The exported functions (filters, plots, data normalisation and CDK helpers)
+can also be used programmatically in plain R scripts.
 By Xavier Clemente Garcia Cevallos :3 "Hecho con amor para la ciencia"
 }
 \section{Drug-likeness filters}{
@@ -92,16 +93,16 @@ By Xavier Clemente Garcia Cevallos :3 "Hecho con amor para la ciencia"
 Useful links:
 \itemize{
   \item \url{https://github.com/xavierclementegarcia/admetshiny}
-  \item Report bugs at \url{https://github.com/xavierclementegarcia/admetshiny-package/issues}
+  \item Report bugs at \url{https://github.com/xavierclementegarcia/admetshiny/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0000-0002-3284-2363}{ORCID})
+\strong{Maintainer}: Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0009-0009-0009-0009}{ORCID})
 
 Authors:
 \itemize{
-  \item Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0000-0002-3284-2363}{ORCID})
+  \item Xavier Clemente Garcia Cevallos \email{xgarcia@unicauca.edu.co} (\href{https://orcid.org/0009-0009-0009-0009}{ORCID})
 }
 
 }

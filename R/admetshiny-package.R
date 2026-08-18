@@ -3,11 +3,12 @@
 #' The \pkg{admetshiny} package provides an interactive Shiny application and a
 #' collection of R functions for the management, calculation, filtering,
 #' visualization and exploratory analysis of molecular descriptors and ADMET
-#' properties of small molecules. 
-#' computes descriptors locally via the Chemistry
-#' Development Kit (CDK) through \pkg{rcdk}, and offers drug-likeness filters
-#' (Lipinski, Veber, Ghose, Egan, Muegge), the BOILED-Egg model, PCA, t-SNE,
-#' radar plots and Tanimoto/AGNES structural similarity clustering.
+#' properties of small molecules. It computes descriptors locally via the
+#' Chemistry Development Kit (CDK) through \pkg{rcdk}, and offers drug-likeness
+#' filters (Lipinski, Veber, Ghose, Egan, Muegge), the BOILED-Egg model, a
+#' P-glycoprotein substrate Random Forest classifier, PCA, t-SNE, UMAP,
+#' parallel coordinates, radar plots and Tanimoto/AGNES structural similarity
+#' clustering.
 #'
 #' To launch the interactive application simply run:
 #'
@@ -15,8 +16,8 @@
 #' admetshiny::run_app()
 #' }
 #'
-#' The exported functions (filters, plots, data fixers and CDK helpers) can
-#' also be used programmatically in plain R scripts.
+#' The exported functions (filters, plots, data normalisation and CDK helpers)
+#' can also be used programmatically in plain R scripts.
 #' By Xavier Clemente Garcia Cevallos :3 "Hecho con amor para la ciencia"
 #'
 #' @section Drug-likeness filters:
@@ -104,21 +105,15 @@ utils::globalVariables(c(
   ".hb_sum",
   # ---- plots.R (ggplot2::aes bare column names) ----
   "HIA", "BBB", "PGP", "x", "y", "Var1", "Var2", "Correlation",
+  "PC1", "PC2", "Colour", "Label", "Variable",
+  "TSNE1", "TSNE2", "Color",
+  "UMAP1", "UMAP2",
+  "Group", "density",
   # ---- boiled_egg_data.R (internal data objects) ----
   ".hia_polygon", ".bbb_polygon",
   ".hia_polygon_alogp", ".bbb_polygon_alogp",
   # ---- pgp_model.R (internal data objects) ----
   ".pgp_rf_trees",
-  # ---- pca.R (ggplot2::aes bare column names) ----
-  "PC1", "PC2", "Colour", "Label", "Variable",
-  # ---- t_sne.R (ggplot2::aes bare column names) ----
-  "TSNE1", "TSNE2", "Color",
-  # ---- umap (ggplot2::aes bare column names) ----
-  "UMAP1", "UMAP2",
-  # ---- parallel.R (ggplot2::aes / ggparcoord) ----
-  "Group",
   # ---- report.R (plotViolationsSummary / plotDruglikenessScore) ----
-  "Rule", "Violations", "Freq", "Score", "Category", "BinMid",
-  # ---- plots.R new plot functions (ggplot2::aes bare column names) ----
-  "Group", "Label", "Color", "density"
+  "Rule", "Violations", "Freq", "Score", "Category", "BinMid"
 ))

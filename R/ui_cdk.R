@@ -406,7 +406,7 @@ cdk_tab <- function() {
         )
       ),
 
-      h3("Step 4: Use this dataset in drug-likeness filtering (BETA)"),
+      h3("Step 4: Use this dataset in drug-likeness filtering"),
       p("The columns are automatically mapped to the same schema that produces",
         tags$code("mapADMETColumns()"),
         "(MW, TPSA, #H-bond donors/acceptors, etc.) and calculate the #violations columns that the filters need. Continuing, you can apply Lipinski, Veber, Ghose, Egan, and Muegge and view the same existing tables and graphs, including BOILED-Egg, Radar plot, and Tanimoto/AGNES (the latter using the newly obtained SMILES column)."

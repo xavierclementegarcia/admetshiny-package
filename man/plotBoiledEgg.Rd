@@ -28,8 +28,8 @@ Points are coloured by P-gp substrate status when a
 }
 \details{
 The BOILED-Egg model was originally calibrated with WLOGP; the application
-uses the generic \code{LogP} column as an approximation. The axes follow
-the SwissADME convention: TPSA on the x-axis, LogP on the y-axis.
+uses the generic \code{LogP} column as an approximation. The axes are
+TPSA on the x-axis and LogP on the y-axis.
 }
 \examples{
 \dontrun{

@@ -50,7 +50,7 @@ docs_tab <- function() {
                                tags$p(style = "color:#555;",
                                       "ADMETShiny uses dual polygon systems:"),
                                tags$ul(style = "color:#555; line-height: 1.8; padding-left: 20px;",
-                                       tags$li(tags$b("Official WLOGP polygons:"), " Used when the data contains a WLOGP column (e.g., SwissADME exports). These are the original coordinates from Daina & Zoete (2016) Data S3."),
+                                       tags$li(tags$b("Official WLOGP polygons:"), " Used when the data contains a WLOGP column. These are the original coordinates from Daina & Zoete (2016) Data S3."),
                                        tags$li(tags$b("ALogP-trained polygons:"), " Used when WLOGP is not available (CDK, ADMET Master). Trained from 439 molecules using Monte Carlo optimization. Independently validated against 632 HIA and 240 BBB experimental compounds from Daina's dataset (HIA: 90.5% accuracy, MCC=0.525; BBB: 82.9% accuracy, MCC=0.643).")
                                ),
 

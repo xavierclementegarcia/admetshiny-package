@@ -1,8 +1,8 @@
 # ---------------------------------------------------------------------------
 # data_fixers.R
 # Column mapping and dataset normalization for the ADMET Master Manager.
-# The generic mapADMETColumns() function replaces the former platform-specific
-# (replaces the former fixSwissADME/fixADMETlab/fixDeepPK functions).
+# The generic mapADMETColumns() function normalizes any ADMET dataset
+# (CSV or .xlsx) into the application's standard schema.
 # ---------------------------------------------------------------------------
 
 ## ---------------------------------------------------------------------------

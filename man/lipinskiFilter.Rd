@@ -31,8 +31,7 @@ molecular weight, LogP, number of H-bond acceptors and donors, plus the
 pre-computed number of Lipinski violations.
 }
 \details{
-Uses the generic \code{LogP} column with the original threshold of 5 (not
-the SwissADME-specific MLOGP <= 4.15).
+Uses the generic \code{LogP} column with the original threshold of 5.
 }
 \examples{
 \dontrun{
