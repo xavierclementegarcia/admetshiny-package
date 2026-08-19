@@ -176,7 +176,10 @@ calcCDKDescriptors <- function(smiles, which = c(
     desc_df <- data.frame(row.names = seq_len(sum(ok)))
   }
 
-  ## Fix ALOGPDescriptor column names
+  ## Fix ALOGPDescriptor column names. The ALOGPDescriptor class returns three
+  ## columns (ALogP, AMR, ALogP2) as a single atomic unit; we cannot request
+  ## one without getting the others. The fallback rename below ensures the
+  ## canonical names exist regardless of the casing/variant returned by CDK.
   if ("alogp" %in% which && !"ALogP" %in% names(desc_df)) {
     alogp_col <- grep("alogp", names(desc_df), ignore.case = TRUE, value = TRUE)
     if (length(alogp_col) > 0) names(desc_df)[names(desc_df) == alogp_col[1]] <- "ALogP"
@@ -184,6 +187,24 @@ calcCDKDescriptors <- function(smiles, which = c(
   if ("mr" %in% which && !"AMR" %in% names(desc_df)) {
     amr_col <- grep("amr", names(desc_df), ignore.case = TRUE, value = TRUE)
     if (length(amr_col) > 0) names(desc_df)[names(desc_df) == amr_col[1]] <- "AMR"
+  }
+
+  ## Respect the user's descriptor selection: drop side-effect columns that
+  ## were not requested. Because ALOGPDescriptor returns ALogP + AMR + ALogP2
+  ## together, the user could end up with MR even if "mr" was deselected, or
+  ## with LogP even if "alogp" was deselected. Drop these to make the
+  ## selection in the UI actually meaningful.
+  if (!"alogp" %in% which) {
+    drop_cols <- grep("alogp", names(desc_df), ignore.case = TRUE)
+    if (length(drop_cols) > 0) desc_df <- desc_df[, -drop_cols, drop = FALSE]
+  }
+  if (!"mr" %in% which) {
+    drop_cols <- grep("^amr$", names(desc_df), ignore.case = TRUE)
+    if (length(drop_cols) > 0) desc_df <- desc_df[, -drop_cols, drop = FALSE]
+  }
+  ## ALogP2 is never used by any plot/filter; always drop it
+  if ("ALogP2" %in% names(desc_df)) {
+    desc_df$ALogP2 <- NULL
   }
 
   ## Attach the heavy-atom count (computed manually above). This is the
