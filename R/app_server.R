@@ -831,7 +831,13 @@ app_server <- function(input, output, session) {
                   "amr")) return("Molar Refractivity")
     if (grepl("arom", lc) && grepl("atom|heavy", lc))
       return("Aromatic Heavy Atoms")
+    ## "Total atoms" must be checked BEFORE "heavy atoms" because both match
+    ## "atoms" in the column name. Total atoms (heavy + H) is what Ghose uses.
+    if (grepl("total", lc) && grepl("atom", lc)) return("Total Atoms")
     if (grepl("heavy", lc) && grepl("atom", lc)) return("Heavy Atoms")
+    if (lc %in% c("num_atoms", "n_atoms", "numatoms", "atom_count",
+                  "number_of_atoms", "total_atom_count"))
+      return("Total Atoms")
     if (grepl("log[\\s_.-]*s", lc) || lc == "logs" || lc == "esol_log_s")
       return("LogS")
     if (grepl("log[\\s_.-]*d", lc) || lc == "logd") return("LogD")
@@ -933,7 +939,8 @@ app_server <- function(input, output, session) {
       "HBA (numeric) - Lipinski/Veber/Muegge"      = "HBA",
       "Rotatable Bonds (numeric) - Veber/Muegge"   = "Rotatable Bonds",
       "Molar Refractivity (numeric) - Ghose"       = "Molar Refractivity",
-      "Heavy Atoms (numeric) - Ghose"              = "Heavy Atoms",
+      "Heavy Atoms (numeric) - P-gp model"         = "Heavy Atoms",
+      "Total Atoms (numeric) - Ghose"              = "Total Atoms",
       "Aromatic Heavy Atoms (numeric)"             = "Aromatic Heavy Atoms",
       "GI Absorption (categorical)"                = "GI Absorption",
       "GI Absorption (numeric 0-1)"                = "GI Absorption_num",

@@ -235,7 +235,7 @@ cdk_tab <- function() {
                            sliderInput("cdk_g_mw", "Molecular Weight range", min = 100, max = 700, value = c(160, 480)),
                            sliderInput("cdk_g_mr", "Molar Refractivity range", min = 0, max = 200, value = c(40, 130)),
                            sliderInput("cdk_g_logp", "LogP range", min = -5, max = 10, value = c(-0.4, 5.6)),
-                           sliderInput("cdk_g_ha", "Heavy Atoms range", min = 0, max = 100, value = c(20, 70)),
+                           sliderInput("cdk_g_ha", "Number of atoms range", min = 0, max = 100, value = c(20, 70)),
                            numericInput("cdk_ghose_violations", "Maximum Ghose Violations", 0)),
 
           conditionalPanel(condition = "input.cdk_filters.includes('Egan')",

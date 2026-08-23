@@ -177,6 +177,7 @@ mapADMETColumns <- function(data, mapping, calculate_cdk = TRUE) {
     "Rotatable Bonds"         = "#Rotatable bonds",
     "Molar Refractivity"      = "MR",
     "Heavy Atoms"             = "#Heavy atoms",
+    "Total Atoms"             = "#Total atoms",
     "Aromatic Heavy Atoms"    = "#Aromatic heavy atoms",
     "GI Absorption"           = "GI absorption",
     "GI Absorption_num"       = "GI_absorption_num",
@@ -211,7 +212,7 @@ mapADMETColumns <- function(data, mapping, calculate_cdk = TRUE) {
   numeric_cols <- intersect(
     c("MW", "LogP", "WLOGP", "TPSA",
       "#H-bond donors", "#H-bond acceptors", "#Rotatable bonds",
-      "MR", "#Heavy atoms", "#Aromatic heavy atoms",
+      "MR", "#Heavy atoms", "#Total atoms", "#Aromatic heavy atoms",
       "LogS", "LogD",
       "GI_absorption_num", "BBB_num", "Pgp_num"),
     names(data)
@@ -250,7 +251,8 @@ mapADMETColumns <- function(data, mapping, calculate_cdk = TRUE) {
   if (calculate_cdk && "SMILES" %in% names(data)) {
     missing_desc <- setdiff(
       c("MW", "LogP", "TPSA", "#H-bond donors", "#H-bond acceptors",
-        "#Rotatable bonds", "MR", "#Heavy atoms", "#Aromatic heavy atoms"),
+        "#Rotatable bonds", "MR", "#Heavy atoms", "#Total atoms",
+        "#Aromatic heavy atoms"),
       names(data)
     )
     if (length(missing_desc) > 0) {
@@ -271,6 +273,7 @@ mapADMETColumns <- function(data, mapping, calculate_cdk = TRUE) {
             "#Rotatable bonds"       = "rotb",
             "MR"                     = "mr",
             "#Heavy atoms"           = "heavy",
+            "#Total atoms"           = "heavy",
             "#Aromatic heavy atoms"  = "aroma"
           )
           cdk_which <- unique(std_to_cdk[missing_desc])
@@ -286,6 +289,7 @@ mapADMETColumns <- function(data, mapping, calculate_cdk = TRUE) {
             nHBAcc        = "#H-bond acceptors",
             nRotB         = "#Rotatable bonds",
             nAtom         = "#Heavy atoms",
+            nTotal        = "#Total atoms",
             naAromAtom    = "#Aromatic heavy atoms"
           )
           for (old in names(cdk_rename)) {

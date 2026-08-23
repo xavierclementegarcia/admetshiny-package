@@ -122,13 +122,20 @@ lipinskiFilter <- function(
 
 ## ----------------------------- Ghose ---------------------------------------
 ## Ghose et al., 1999 -- "qualifying range" (two-sided range):
-##   MW: 160-480 | MR: 40-130 | LogP: -0.4 to 5.6 | #heavy atoms: 20-70
+##   MW: 160-480 | MR: 40-130 | LogP: -0.4 to 5.6 | total atoms: 20-70
+## Note: the "number of atoms 20-70" criterion in the original Ghose paper
+## refers to TOTAL atoms (heavy + H), not heavy atoms alone. This is
+## consistent with the MW 160-480 range (20-70 total atoms corresponds to
+## MW ~160-480 for organic molecules). The filter prefers "#Total atoms"
+## when available and falls back to "#Heavy atoms" for backwards compatibility.
 
 #' Ghose drug-likeness filter
 #'
 #' Filters compounds according to the Ghose qualifying range (Ghose et al.,
-#' 1999): molecular weight, molar refractivity, LogP and number of heavy
-#' atoms.
+#' 1999): molecular weight, molar refractivity, LogP and number of atoms.
+#'
+#' The "number of atoms" criterion (range 20-70) refers to TOTAL atoms
+#' (heavy + hydrogens), following the original Ghose (1999) definition.
 #'
 #' @param data A data.frame with the standard column schema.
 #' @param g_mw_min Numeric. Minimum molecular weight. Default 160.
@@ -137,14 +144,14 @@ lipinskiFilter <- function(
 #' @param g_mr_max Numeric. Maximum molar refractivity. Default 130.
 #' @param g_logp_min Numeric. Minimum LogP. Default -0.4.
 #' @param g_logp_max Numeric. Maximum LogP. Default 5.6.
-#' @param g_ha_min Numeric. Minimum number of heavy atoms. Default 20.
-#' @param g_ha_max Numeric. Maximum number of heavy atoms. Default 70.
+#' @param g_ha_min Numeric. Minimum number of atoms. Default 20.
+#' @param g_ha_max Numeric. Maximum number of atoms. Default 70.
 #' @param violations Integer. Maximum tolerated Ghose violations. Default 0.
 #' @return A data.frame with the rows of \code{data} that satisfy all
 #'   thresholds.
 #' @examples
 #' \dontrun{
-#' d <- data.frame(MW = 300, MR = 90, LogP = 2, "#Heavy atoms" = 22,
+#' d <- data.frame(MW = 300, MR = 90, LogP = 2, "#Total atoms" = 30,
 #'   "Ghose #violations" = 0, check.names = FALSE)
 #' ghoseFilter(d)
 #' }
@@ -166,17 +173,32 @@ ghoseFilter <- function(
     g_ha_max = 70,
     violations = 0) {
 
+  ## Determine which atom-count column to use. Prefer "#Total atoms" (the
+  ## correct Ghose definition); fall back to "#Heavy atoms" for backwards
+  ## compatibility with datasets that don't have the total-atom column.
+  atom_col <- if ("#Total atoms" %in% names(data)) {
+    "#Total atoms"
+  } else if ("#Heavy atoms" %in% names(data)) {
+    "#Heavy atoms"
+  } else {
+    "#Total atoms"  ## will trigger the missing-column error below
+  }
+
   required_columns <- c(
-    "MW", "MR", "LogP", "#Heavy atoms", "Ghose #violations"
+    "MW", "MR", "LogP", atom_col, "Ghose #violations"
   )
   .checkColumns(data, required_columns, "Ghose")
 
+  ## Use base R subsetting instead of dplyr::.data[[ ]] to avoid depending
+  ## on the .data pronoun being imported. dplyr::filter supports passing
+  ## a logical vector directly.
+  atom_vals <- data[[atom_col]]
   filter(
     data,
     MW >= g_mw_min, MW <= g_mw_max,
     MR >= g_mr_min, MR <= g_mr_max,
     LogP >= g_logp_min, LogP <= g_logp_max,
-    `#Heavy atoms` >= g_ha_min, `#Heavy atoms` <= g_ha_max,
+    atom_vals >= g_ha_min, atom_vals <= g_ha_max,
     `Ghose #violations` <= violations
   )
 }

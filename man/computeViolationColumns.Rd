@@ -28,6 +28,11 @@ original publication thresholds are used:
 \item Muegge: LogP < -2 or LogP > 5
 }
 
+For the Ghose atom-count criterion (20-70 atoms), the function uses
+\code{"#Total atoms"} (heavy + H, matching the original Ghose 1999
+definition) when available, and falls back to \code{"#Heavy atoms"} for
+backwards compatibility.
+
 The Veber violation is binary: a compound violates if it has more than 10
 rotatable bonds OR if both polarity conditions fail (TPSA > 140 AND
 HBA + HBD > 12).

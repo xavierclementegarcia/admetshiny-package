@@ -133,3 +133,50 @@ test_that("applyFilters with empty filters returns the input unchanged", {
   out <- applyFilters(d, filters = character(0))
   expect_equal(nrow(out), nrow(d))
 })
+
+## ---- Ghose total-atoms vs heavy-atoms -------------------------------------
+## Ghose (1999) "number of atoms 20-70" refers to TOTAL atoms (heavy + H),
+## not heavy atoms alone. This test verifies that when "#Total atoms" is
+## available, it is used preferentially over "#Heavy atoms".
+test_that("ghoseFilter uses #Total atoms when available (not #Heavy atoms)", {
+  ## Compound with 16 heavy atoms (below 20) but 40 total atoms (within 20-70).
+  ## If Ghose used heavy atoms, this would fail; with total atoms, it passes.
+  d <- data.frame(
+    Name = c("caryophyllene-like"),
+    MW = 220, MR = 70, LogP = 4.5,
+    "#Heavy atoms" = 16,        ## below 20 (would fail if used)
+    "#Total atoms" = 40,        ## within 20-70 (correct Ghose definition)
+    "Ghose #violations" = 0,
+    check.names = FALSE
+  )
+  out <- ghoseFilter(d)
+  expect_true("caryophyllene-like" %in% out$Name)
+})
+
+test_that("ghoseFilter falls back to #Heavy atoms when #Total atoms is absent", {
+  ## Backwards compatibility: old datasets without "#Total atoms" should still
+  ## work using "#Heavy atoms".
+  d <- data.frame(
+    Name = c("ok", "out_of_range"),
+    MW = c(300, 300), MR = c(70, 70), LogP = c(2, 2),
+    "#Heavy atoms" = c(25, 5),       ## 25 in range, 5 below 20
+    "Ghose #violations" = c(0, 0),
+    check.names = FALSE
+  )
+  out <- ghoseFilter(d)
+  expect_true("ok" %in% out$Name)
+  expect_false("out_of_range" %in% out$Name)
+})
+
+test_that("computeViolationColumns uses #Total atoms for Ghose when available", {
+  d <- data.frame(
+    MW = 220, MR = 70, LogP = 4.5,
+    "#Heavy atoms" = 16,
+    "#Total atoms" = 40,
+    check.names = FALSE
+  )
+  out <- computeViolationColumns(d)
+  ## With total atoms = 40 (in range 20-70), Ghose should have 0 violations
+  ## from the atom-count criterion, even though heavy atoms = 16 (< 20).
+  expect_equal(as.numeric(out[1, "Ghose #violations"]), 0)
+})

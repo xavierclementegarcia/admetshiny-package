@@ -197,7 +197,7 @@ admet_master_tab <- function() {
                             min = 0, max = 200, value = c(40, 130)),
                 sliderInput("master_g_logp", "LogP range",
                             min = -5, max = 10, value = c(-0.4, 5.6)),
-                sliderInput("master_g_ha", "Heavy Atoms range",
+                sliderInput("master_g_ha", "Number of atoms range",
                             min = 0, max = 100, value = c(20, 70)),
                 numericInput("master_ghose_violations", "Maximum Ghose Violations", 0)
               ),

@@ -166,6 +166,22 @@ calcCDKDescriptors <- function(smiles, which = c(
     })
   }))
 
+  ## Total-atom count (heavy + H): computed AFTER convert.implicit.to.explicit(m),
+  ## when implicit H have been added as explicit atoms. At this point
+  ## getAtomCount() returns the total number of atoms (heavy + all H).
+  ## This is the value required by the Ghose (1999) filter, whose "number of
+  ## atoms 20-70" criterion was calibrated on total atoms (consistent with the
+  ## MW 160-480 range; 20-70 total atoms corresponds to MW ~160-480 for typical
+  ## organic molecules, whereas 20-70 heavy atoms would correspond to MW
+  ## ~280-1000, which does not match). SwissADME also uses total atoms.
+  total_counts <- if ("heavy" %in% which) {
+    vapply(mols[ok], function(m) {
+      tryCatch(as.integer(m$getAtomCount()), error = function(e) NA_integer_)
+    }, integer(1))
+  } else {
+    NULL
+  }
+
   ## Core descriptors via eval.desc (only if at least one non-heavy descriptor
   ## was requested)
   if (length(core_which) > 0) {
@@ -209,8 +225,11 @@ calcCDKDescriptors <- function(smiles, which = c(
 
   ## Attach the heavy-atom count (computed manually above). This is the
   ## canonical "nAtom" column expected by mapCDKDescriptors / mapADMETColumns.
+  ## Also attach the total-atom count as "nTotal", used by the Ghose filter
+  ## (Ghose's "20-70 atoms" criterion refers to total atoms, not heavy atoms).
   if ("heavy" %in% which) {
-    desc_df$nAtom <- heavy_counts
+    desc_df$nAtom  <- heavy_counts
+    desc_df$nTotal <- total_counts
   }
 
   desc_df$SMILES <- smiles_valid[ok]
@@ -255,6 +274,7 @@ mapCDKDescriptors <- function(cdk_df) {
     nHBAcc     = "#H-bond acceptors",
     nRotB      = "#Rotatable bonds",
     nAtom      = "#Heavy atoms",
+    nTotal     = "#Total atoms",
     naAromAtom = "#Aromatic heavy atoms"
   )
 
@@ -293,6 +313,11 @@ mapCDKDescriptors <- function(cdk_df) {
 #'   \item Muegge: LogP < -2 or LogP > 5
 #' }
 #'
+#' For the Ghose atom-count criterion (20-70 atoms), the function uses
+#' \code{"#Total atoms"} (heavy + H, matching the original Ghose 1999
+#' definition) when available, and falls back to \code{"#Heavy atoms"} for
+#' backwards compatibility.
+#'
 #' The Veber violation is binary: a compound violates if it has more than 10
 #' rotatable bonds OR if both polarity conditions fail (TPSA > 140 AND
 #' HBA + HBD > 12).
@@ -329,14 +354,26 @@ computeViolationColumns <- function(data) {
   rb    <- safe_get("#Rotatable bonds")
   ha    <- safe_get("#Heavy atoms")
 
+  ## Ghose (1999) uses the "number of atoms 20-70" criterion, which refers to
+  ## TOTAL atoms (heavy + H), not heavy atoms alone. This is consistent with
+  ## the MW 160-480 range (20-70 total atoms = MW ~160-480 for organic molecules,
+  ## whereas 20-70 heavy atoms = MW ~280-1000). Prefer "#Total atoms" when
+  ## available; fall back to "#Heavy atoms" for backwards compatibility with
+  ## datasets that don't have the total-atom column yet.
+  atoms <- safe_get("#Total atoms")
+  has_total <- !all(is.na(atoms)) && any(!is.na(atoms))
+  if (!has_total) {
+    atoms <- ha
+  }
+
   ## Lipinski (1997): MW > 500, LogP > 5, HBA > 10, HBD > 5
   data[["Lipinski #violations"]] <-
     (mw > 500) + (logp > 5) + (hba > 10) + (hbd > 5)
 
-  ## Ghose (1999): MW 160-480, MR 40-130, LogP -0.4 to 5.6, heavy atoms 20-70
+  ## Ghose (1999): MW 160-480, MR 40-130, LogP -0.4 to 5.6, total atoms 20-70
   data[["Ghose #violations"]] <-
     (mw < 160 | mw > 480) + (mr < 40 | mr > 130) +
-    (logp < -0.4 | logp > 5.6) + (ha < 20 | ha > 70)
+    (logp < -0.4 | logp > 5.6) + (atoms < 20 | atoms > 70)
 
   ## Veber (2002): RB <= 10 AND (TPSA <= 140 OR HBA+HBD <= 12).
   ## Violation = RB > 10 OR (TPSA > 140 AND HBA+HBD > 12). Binary (0 or 1).

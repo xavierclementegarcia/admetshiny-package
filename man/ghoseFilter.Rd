@@ -32,9 +32,9 @@ ghoseFilter(
 
 \item{g_logp_max}{Numeric. Maximum LogP. Default 5.6.}
 
-\item{g_ha_min}{Numeric. Minimum number of heavy atoms. Default 20.}
+\item{g_ha_min}{Numeric. Minimum number of atoms. Default 20.}
 
-\item{g_ha_max}{Numeric. Maximum number of heavy atoms. Default 70.}
+\item{g_ha_max}{Numeric. Maximum number of atoms. Default 70.}
 
 \item{violations}{Integer. Maximum tolerated Ghose violations. Default 0.}
 }
@@ -44,12 +44,15 @@ thresholds.
 }
 \description{
 Filters compounds according to the Ghose qualifying range (Ghose et al.,
-1999): molecular weight, molar refractivity, LogP and number of heavy
-atoms.
+1999): molecular weight, molar refractivity, LogP and number of atoms.
+}
+\details{
+The "number of atoms" criterion (range 20-70) refers to TOTAL atoms
+(heavy + hydrogens), following the original Ghose (1999) definition.
 }
 \examples{
 \dontrun{
-d <- data.frame(MW = 300, MR = 90, LogP = 2, "#Heavy atoms" = 22,
+d <- data.frame(MW = 300, MR = 90, LogP = 2, "#Total atoms" = 30,
   "Ghose #violations" = 0, check.names = FALSE)
 ghoseFilter(d)
 }
