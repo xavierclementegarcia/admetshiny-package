@@ -20,3 +20,4 @@
 ^pgp_.*\.json$
 ^agent-ctx$
 ^dev$
+^CRAN-SUBMISSION$

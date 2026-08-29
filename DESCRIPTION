@@ -2,21 +2,20 @@ Type: Package
 Package: admetshiny
 Title: Interactive ADMET and Drug-Likeness Analysis of Small Molecules
 Version: 1.0.0
-Date: 2025-08-28
+Date: 2026-08-29
 Authors@R: 
     person("Xavier Clemente", "Garcia Cevallos", , "xgarcia@unicauca.edu.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3284-2363"))
 Maintainer: Xavier Clemente Garcia Cevallos <xgarcia@unicauca.edu.co>
-Description: Provides an interactive 'shiny' application and a toolbox of
-    R functions for the management, calculation, filtering, visualization
-    and exploratory analysis of molecular descriptors and ADMET
-    (Absorption, Distribution, Metabolism, Excretion and Toxicity)
-    properties of small molecules. It integrates workflows from SwissADME,
-    ADMETlab 3.0 and Deep-PK, computes descriptors locally via the
-    Chemistry Development Kit (CDK), and offers drug-likeness filters
-    (Lipinski, Veber, Ghose, Egan, Muegge), the BOILED-Egg model, PCA,
-    t-SNE, radar plots and Tanimoto/AGNES clustering to support compound
-    prioritization in early-stage drug discovery.
+Description: Integrates code-based tools with a dual 'shiny' application 
+    interface to streamline drug discovery workflows. Facilitates the 
+    calculation of molecular descriptors via 'rcdk' and 'webchem', standardizes 
+    heterogeneous 'ADMET' datasets through its 'ADMET' Master Manager, and applies 
+    prominent drug-likeness filters such as 'Lipinski' and 'Veber' rules. 
+    Furthermore, predicts pharmacokinetic endpoints including P-glycoprotein 
+    substrates and 'BOILED-Egg' parameters, while enabling the generation of 
+    publication-ready visualizations and automated statistical reports like 
+    'PCA', 'UMAP', and 'AGNES' 'Tanimoto' similarity dendrograms.
 License: MIT + file LICENSE
 URL: https://github.com/xavierclementegarcia/admetshiny
 BugReports: https://github.com/xavierclementegarcia/admetshiny/issues
