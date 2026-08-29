@@ -96,4 +96,4 @@ plotBoiledEgg(filtered)
 
 ## License
 
-CC BY 4.0
+MIT LICENSE
