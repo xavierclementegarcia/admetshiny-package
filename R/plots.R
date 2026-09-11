@@ -68,10 +68,8 @@
 #'   gastrointestinal absorption and brain penetration of small molecules.
 #'   \emph{ChemMedChem}, 11(11), 1117-1121.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(LogP = c(2, 5), TPSA = c(50, 150))
 #' plotBoiledEgg(d)
-#' }
 plotBoiledEgg <- function(data, logp_source = NULL) {
 
   req_cols <- c("LogP", "TPSA")
@@ -155,10 +153,8 @@ plotBoiledEgg <- function(data, logp_source = NULL) {
 #' @param data A data.frame containing a numeric \code{MW} column.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = c(300, 400, 500))
 #' plotMW(d)
-#' }
 #' @export
 plotMW <- function(data) {
   ggplot(data, aes(x = MW)) +
@@ -173,10 +169,8 @@ plotMW <- function(data) {
 #' @param data A data.frame containing a numeric \code{TPSA} column.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(TPSA = c(40, 80, 120))
 #' plotTPSA(d)
-#' }
 #' @export
 plotTPSA <- function(data) {
   ggplot(data, aes(x = TPSA)) +
@@ -191,10 +185,8 @@ plotTPSA <- function(data) {
 #' @param data A data.frame containing a numeric \code{LogP} column.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(LogP = c(1, 2, 3))
 #' plotLogP(d)
-#' }
 #' @export
 plotLogP <- function(data) {
   ggplot(data, aes(x = LogP)) +
@@ -225,7 +217,7 @@ plotLogP <- function(data) {
 #' @return Invisibly \code{NULL}; called for the side-effect of drawing the
 #'   radar chart on the current graphics device.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' d <- data.frame(
 #'   Name = c("mol1", "mol2"),
 #'   MW = c(300, 400), LogP = c(2, 3), TPSA = c(60, 90),
@@ -332,7 +324,7 @@ plotRadar <- function(data, id_col, ids, props = c(
 #'   \code{"average"}.
 #' @return Invisibly the Tanimoto similarity matrix.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' d <- data.frame(
 #'   Name = c("ethanol", "aspirin", "benzene", "toluene", "phenol"),
 #'   SMILES = c("CCO", "CC(=O)Oc1ccccc1C(=O)O", "c1ccccc1",
@@ -430,11 +422,9 @@ plotTanimoto <- function(data, smiles_col, label_col = NULL,
 #'   of common descriptors.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
 #'   TPSA = c(60, 80, 100))
 #' plotCorrHeatmap(d)
-#' }
 #' @export
 plotCorrHeatmap <- function(data, props = c(
   "MW", "LogP", "TPSA", "MR",
@@ -511,11 +501,9 @@ plotCorrHeatmap <- function(data, props = c(
 #'   Default \code{TRUE}.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
 #'   TPSA = c(60, 80, 100), group = c("A", "A", "B"))
 #' plotPCA(d, variables = c("MW", "LogP", "TPSA"), color_by = "group")
-#' }
 #' @export
 plotPCA <- function(data, variables = NULL, color_by = "None",
                     label_by = "None", scale_data = TRUE, ellipse = TRUE) {
@@ -695,10 +683,15 @@ plotPCA <- function(data, variables = NULL, color_by = "None",
 #' @param scale_data Logical. Whether to scale variables. Default \code{TRUE}.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
-#' d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
-#'   TPSA = c(60, 80, 100), group = c("A", "A", "B"))
-#' plotTSNE(d, variables = c("MW", "LogP", "TPSA"), color_by = "group")
+#' \donttest{
+#' d <- data.frame(
+#'   MW = rnorm(50, 400, 100),
+#'   LogP = rnorm(50, 3, 1.5),
+#'   TPSA = rnorm(50, 80, 40),
+#'   group = rep(c("A", "B"), each = 25)
+#' )
+#' plotTSNE(d, variables = c("MW", "LogP", "TPSA"),
+#'          color_by = "group", perplexity = 5)
 #' }
 #' @export
 plotTSNE <- function(data, variables, color_by = "None", label_by = "None",
@@ -810,9 +803,9 @@ plotTSNE <- function(data, variables, color_by = "None", label_by = "None",
 #' @param scale_data Logical. Whether to scale variables. Default \code{TRUE}.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
-#' d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
-#'   TPSA = c(60, 80, 100), group = c("A", "A", "B"))
+#' \donttest{
+#' d <- data.frame(MW = c(300, 400, 500,600), LogP = c(2, 3, 4,1),
+#'   TPSA = c(60, 80, 100,40), group = c("A", "A", "B", "B"))
 #' plotUMAP(d, variables = c("MW", "LogP", "TPSA"), color_by = "group")
 #' }
 #' @export
@@ -875,8 +868,9 @@ plotUMAP <- function(data, variables, color_by = "None", label_by = "None",
          call. = FALSE)
   }
 
-  ## uwot::umap returns a matrix with `n_components` columns
-  set.seed(42)
+  ## uwot::umap returns a matrix with `n_components` columns.
+  ## Note: uwot::umap is stochastic; users who need reproducible results
+  ## should call set.seed() before plotUMAP().
   emb <- uwot::umap(
     X, n_neighbors = n_neighbors, min_dist = min_dist,
     n_components = 2, init = "spectral", verbose = FALSE
@@ -924,7 +918,7 @@ plotUMAP <- function(data, variables, color_by = "None", label_by = "None",
 #'   \code{TRUE}.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
 #'   TPSA = c(60, 80, 100), group = c("A", "A", "B"))
 #' plotParallel(d, variables = c("MW", "LogP", "TPSA"), color_by = "group")
@@ -1007,11 +1001,9 @@ plotParallel <- function(data, variables, color_by = NULL,
 #'   \code{FALSE}.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = c(300, 400, 500),
 #'   group = c("A", "A", "B"))
 #' plotViolin(d, variable = "MW", group_by = "group")
-#' }
 #' @export
 plotViolin <- function(data, variable, group_by,
                        show_box = TRUE, show_points = FALSE) {
@@ -1057,11 +1049,9 @@ plotViolin <- function(data, variable, group_by,
 #' @param show_rug Logical. Show a rug plot at the bottom. Default \code{FALSE}.
 #' @return A \pkg{ggplot2} object.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = c(300, 400, 500, 350, 450, 380),
 #'   group = c("A", "A", "B", "B", "C", "C"))
 #' plotHistogramCustom(d, variable = "MW", group_by = "group")
-#' }
 #' @export
 plotHistogramCustom <- function(data, variable, bins = 30,
                                 group_by = "None",

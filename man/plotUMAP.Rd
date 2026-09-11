@@ -40,9 +40,9 @@ exploratory analysis of the chemical space. Points can be coloured and
 labelled. Requires the suggested packages \pkg{uwot} and \pkg{ggrepel}.
 }
 \examples{
-\dontrun{
-d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
-  TPSA = c(60, 80, 100), group = c("A", "A", "B"))
+\donttest{
+d <- data.frame(MW = c(300, 400, 500,600), LogP = c(2, 3, 4,1),
+  TPSA = c(60, 80, 100,40), group = c("A", "A", "B", "B"))
 plotUMAP(d, variables = c("MW", "LogP", "TPSA"), color_by = "group")
 }
 }

@@ -44,17 +44,28 @@ metrics, a composite drug-likeness score, cross-dataset comparison,
 visualizations and references.
 }
 \examples{
-\dontrun{
-## Generate a report from a single dataset
-d <- read.csv("admet_data.csv", check.names = FALSE)
-d <- mapADMETColumns(d, mapping)
-generateReport(d, filters = c("Lipinski", "Veber"), format = "html")
-
-## Generate a report from multiple datasets
-generateReport(
-  data = list(CDK = d1, Master = d2),
-  filters = list(CDK = c("Lipinski"), Master = c("Egan")),
-  format = "pdf"
+\donttest{
+## Build a small synthetic ADMET dataset in the standard schema
+d <- data.frame(
+  Name = c("druglike", "violator"),
+  SMILES = c("CCO", "CCCCCCCCCCCCCCCCCCCCCCCCCC"),
+  MW = c(300, 650),
+  LogP = c(2, 7),
+  TPSA = c(40, 160),
+  MR = c(70, 150),
+  "#H-bond acceptors" = c(4, 12),
+  "#H-bond donors" = c(2, 7),
+  "#Rotatable bonds" = c(3, 14),
+  "#Heavy atoms" = c(20, 80),
+  "#Aromatic heavy atoms" = c(6, 9),
+  check.names = FALSE
 )
+d <- computeViolationColumns(d)
+
+## Generate an HTML report (written to a temp file)
+out <- tempfile(fileext = ".html")
+generateReport(d, filters = c("Lipinski", "Veber"),
+               format = "html", output_file = out,
+               source_name = "Example")
 }
 }

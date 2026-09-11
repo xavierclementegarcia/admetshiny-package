@@ -23,9 +23,8 @@ the package's static web assets (the hex sticker) and returns a Shiny app
 object that can be printed or run directly.
 }
 \examples{
-\dontrun{
 if (interactive()) {
   admetshiny::run_app()
 }
-}
+
 }

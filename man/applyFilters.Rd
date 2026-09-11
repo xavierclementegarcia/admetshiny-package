@@ -34,7 +34,6 @@ filters are applied in the order Lipinski, Veber, Ghose, Egan, Muegge; only
 those named in \code{filters} are executed.
 }
 \examples{
-\dontrun{
 d <- data.frame(MW = 300, LogP = 2, TPSA = 80, MR = 90,
   "#Heavy atoms" = 22, "#Rotatable bonds" = 3,
   "#H-bond acceptors" = 4, "#H-bond donors" = 2,
@@ -42,7 +41,6 @@ d <- data.frame(MW = 300, LogP = 2, TPSA = 80, MR = 90,
   "Veber #violations" = 0, "Egan #violations" = 0,
   "Muegge #violations" = 0, check.names = FALSE)
 applyFilters(d, filters = c("Lipinski", "Veber", "Egan"))
-}
 }
 \seealso{
 \code{\link{lipinskiFilter}}, \code{\link{veberFilter}},

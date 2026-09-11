@@ -16,8 +16,6 @@ A \pkg{ggplot2} object.
 TPSA distribution histogram
 }
 \examples{
-\dontrun{
 d <- data.frame(TPSA = c(40, 80, 120))
 plotTPSA(d)
-}
 }

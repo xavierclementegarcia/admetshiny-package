@@ -26,9 +26,7 @@ Produces a violin plot of a numeric variable grouped by a categorical
 variable, with an optional inner boxplot and jittered points.
 }
 \examples{
-\dontrun{
 d <- data.frame(MW = c(300, 400, 500),
   group = c("A", "A", "B"))
 plotViolin(d, variable = "MW", group_by = "group")
-}
 }

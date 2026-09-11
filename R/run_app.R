@@ -17,11 +17,10 @@
 #'   of launching a Shiny application when printed.
 #' @export
 #' @examples
-#' \dontrun{
 #' if (interactive()) {
 #'   admetshiny::run_app()
 #' }
-#' }
+#'
 run_app <- function(onStart = NULL, ...) {
 
   ## Allow uploads up to 200 MB (large ADMET datasets with

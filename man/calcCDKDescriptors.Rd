@@ -28,7 +28,7 @@ package \pkg{rcdk}. Requires a working Java JDK (a JRE alone is not
 sufficient).
 }
 \examples{
-\dontrun{
+\donttest{
 smiles <- c("CCO", "CC(=O)Oc1ccccc1C(=O)O")
 desc <- calcCDKDescriptors(smiles)
 }

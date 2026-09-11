@@ -13,6 +13,7 @@ home_tab <- function() {
   tabPanel(
     title = tagList(icon("home"), "Home"),
     value = "home",
+    info_card_css(),
 
     tags$head(tags$style(HTML("
       .nav-card-btn {

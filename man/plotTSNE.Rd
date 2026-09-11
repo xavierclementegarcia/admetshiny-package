@@ -39,9 +39,14 @@ and labelled. Requires the suggested packages \pkg{Rtsne} and
 \pkg{ggrepel}.
 }
 \examples{
-\dontrun{
-d <- data.frame(MW = c(300, 400, 500), LogP = c(2, 3, 4),
-  TPSA = c(60, 80, 100), group = c("A", "A", "B"))
-plotTSNE(d, variables = c("MW", "LogP", "TPSA"), color_by = "group")
+\donttest{
+d <- data.frame(
+  MW = rnorm(50, 400, 100),
+  LogP = rnorm(50, 3, 1.5),
+  TPSA = rnorm(50, 80, 40),
+  group = rep(c("A", "B"), each = 25)
+)
+plotTSNE(d, variables = c("MW", "LogP", "TPSA"),
+         color_by = "group", perplexity = 5)
 }
 }

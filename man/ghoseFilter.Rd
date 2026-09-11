@@ -51,11 +51,9 @@ The "number of atoms" criterion (range 20-70) refers to TOTAL atoms
 (heavy + hydrogens), following the original Ghose (1999) definition.
 }
 \examples{
-\dontrun{
 d <- data.frame(MW = 300, MR = 90, LogP = 2, "#Total atoms" = 30,
   "Ghose #violations" = 0, check.names = FALSE)
 ghoseFilter(d)
-}
 }
 \references{
 Ghose, A. K., Viswanadhan, V. N., & Wendoloski, J. J. (1999).

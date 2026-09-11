@@ -86,11 +86,10 @@
 #' @return A data.frame with the rows of \code{data} that satisfy all
 #'   thresholds.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = 300, LogP = 2, "#H-bond acceptors" = 4,
 #'   "#H-bond donors" = 2, "Lipinski #violations" = 0, check.names = FALSE)
 #' lipinskiFilter(d)
-#' }
+#'
 #' @export
 #' @references Lipinski, C. A., Lombardo, F., Dominy, B. W., & Feeney, P. J.
 #'   (1997). Experimental and computational approaches to estimate solubility
@@ -150,11 +149,9 @@ lipinskiFilter <- function(
 #' @return A data.frame with the rows of \code{data} that satisfy all
 #'   thresholds.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = 300, MR = 90, LogP = 2, "#Total atoms" = 30,
 #'   "Ghose #violations" = 0, check.names = FALSE)
 #' ghoseFilter(d)
-#' }
 #' @export
 #' @references Ghose, A. K., Viswanadhan, V. N., & Wendoloski, J. J. (1999).
 #'   A knowledge-based approach in designing combinatorial or medicinal
@@ -218,11 +215,9 @@ ghoseFilter <- function(
 #' @return A data.frame with the rows of \code{data} that satisfy all
 #'   thresholds.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(TPSA = 80, LogP = 2, "Egan #violations" = 0,
 #'   check.names = FALSE)
 #' eganFilter(d)
-#' }
 #' @export
 #' @references Egan, W. J., Merz, K. M., & Baldwin, J. J. (2000). Prediction
 #'   of drug absorption using multivariate statistics. \emph{Journal of
@@ -274,12 +269,10 @@ eganFilter <- function(
 #' @return A data.frame with the rows of \code{data} that satisfy all
 #'   thresholds.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = 300, LogP = 2, TPSA = 80,
 #'   "#H-bond acceptors" = 4, "#H-bond donors" = 2,
 #'   "#Rotatable bonds" = 3, "Muegge #violations" = 0, check.names = FALSE)
 #' mueggeFilter(d)
-#' }
 #' @export
 #' @references Muegge, I., Heald, S. L., & Brittelli, D. (2001). Simple
 #'   selection criteria for drug-like chemical matter. \emph{Journal of
@@ -334,12 +327,10 @@ mueggeFilter <- function(
 #' @return A data.frame with the rows of \code{data} that satisfy all
 #'   thresholds.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(TPSA = 80, "#Rotatable bonds" = 3,
 #'   "#H-bond acceptors" = 4, "#H-bond donors" = 2,
 #'   "Veber #violations" = 0, check.names = FALSE)
 #' veberFilter(d)
-#' }
 #' @export
 #' @references Veber, D. F., Johnson, S. R., Cheng, H. Y., Smith, B. R.,
 #'   Ward, K. W., & Kopple, K. D. (2002). Molecular properties that influence
@@ -385,7 +376,6 @@ veberFilter <- function(
 #' @return A data.frame with the rows of \code{data} that pass every selected
 #'   filter.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(MW = 300, LogP = 2, TPSA = 80, MR = 90,
 #'   "#Heavy atoms" = 22, "#Rotatable bonds" = 3,
 #'   "#H-bond acceptors" = 4, "#H-bond donors" = 2,
@@ -393,7 +383,6 @@ veberFilter <- function(
 #'   "Veber #violations" = 0, "Egan #violations" = 0,
 #'   "Muegge #violations" = 0, check.names = FALSE)
 #' applyFilters(d, filters = c("Lipinski", "Veber", "Egan"))
-#' }
 #' @export
 #' @seealso \code{\link{lipinskiFilter}}, \code{\link{veberFilter}},
 #'   \code{\link{ghoseFilter}}, \code{\link{eganFilter}},

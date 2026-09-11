@@ -26,7 +26,7 @@ created; the application uses a single \code{LogP} column for all
 drug-likeness filters, with thresholds from the original publications.
 }
 \examples{
-\dontrun{
+\donttest{
 smiles <- c("CCO", "CC(=O)Oc1ccccc1C(=O)O")
 desc <- calcCDKDescriptors(smiles)
 mapped <- mapCDKDescriptors(desc)

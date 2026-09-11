@@ -26,10 +26,8 @@ the selected palette, intelligently detecting whether the colour variable
 is continuous or discrete.
 }
 \examples{
-\dontrun{
 library(ggplot2)
 d <- data.frame(MW = c(300, 400, 500), group = c("A", "A", "B"))
 p <- ggplot(d, aes(x = group, y = MW, color = group)) + geom_point()
 p <- apply_palette(p, "Set1", d, "group")
-}
 }

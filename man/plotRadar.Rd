@@ -34,7 +34,7 @@ physicochemical properties, normalized 0-1 against the range observed in
 the full dataset. Requires the suggested package \pkg{fmsb}.
 }
 \examples{
-\dontrun{
+\donttest{
 d <- data.frame(
   Name = c("mol1", "mol2"),
   MW = c(300, 400), LogP = c(2, 3), TPSA = c(60, 90),

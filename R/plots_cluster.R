@@ -38,7 +38,6 @@
 #'   hierarchical clustering: an overview. \emph{Wiley Interdisciplinary
 #'   Reviews: Data Mining and Knowledge Discovery}, 2(1), 86-97.
 #' @examples
-#' \dontrun{
 #' d <- data.frame(
 #'   Name = c("A", "B", "C", "D"),
 #'   MW = c(300, 350, 600, 320),
@@ -47,7 +46,6 @@
 #'   check.names = FALSE
 #' )
 #' plotClusterHeatmap(d, id_col = "Name")
-#' }
 plotClusterHeatmap <- function(data, variables = NULL, id_col = NULL,
                                method = "ward.D2", scale_data = TRUE,
                                palette = "default") {

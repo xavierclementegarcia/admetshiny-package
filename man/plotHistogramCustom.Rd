@@ -40,9 +40,7 @@ the user to pick any numeric variable (including user-supplied columns
 from CSV uploads, ADMET probabilities, etc.).
 }
 \examples{
-\dontrun{
 d <- data.frame(MW = c(300, 400, 500, 350, 450, 380),
   group = c("A", "A", "B", "B", "C", "C"))
 plotHistogramCustom(d, variable = "MW", group_by = "group")
-}
 }

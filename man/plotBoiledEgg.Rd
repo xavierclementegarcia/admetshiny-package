@@ -32,10 +32,8 @@ uses the generic \code{LogP} column as an approximation. The axes are
 TPSA on the x-axis and LogP on the y-axis.
 }
 \examples{
-\dontrun{
 d <- data.frame(LogP = c(2, 5), TPSA = c(50, 150))
 plotBoiledEgg(d)
-}
 }
 \references{
 Daina, A., & Zoete, V. (2016). A boiled egg to predict

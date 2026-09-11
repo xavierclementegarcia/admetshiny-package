@@ -36,7 +36,7 @@ suggested packages \pkg{rcdk}, \pkg{fingerprint} and \pkg{cluster}, plus a
 working Java JDK (for \pkg{rcdk}).
 }
 \examples{
-\dontrun{
+\donttest{
 d <- data.frame(
   Name = c("ethanol", "aspirin", "benzene", "toluene", "phenol"),
   SMILES = c("CCO", "CC(=O)Oc1ccccc1C(=O)O", "c1ccccc1",

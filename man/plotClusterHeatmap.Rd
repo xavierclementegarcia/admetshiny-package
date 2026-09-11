@@ -49,7 +49,6 @@ The plot is rendered using base R graphics so it works without additional
 dependencies beyond what the package already requires.
 }
 \examples{
-\dontrun{
 d <- data.frame(
   Name = c("A", "B", "C", "D"),
   MW = c(300, 350, 600, 320),
@@ -58,7 +57,6 @@ d <- data.frame(
   check.names = FALSE
 )
 plotClusterHeatmap(d, id_col = "Name")
-}
 }
 \references{
 Murtagh, F., & Contreras, P. (2012). Algorithms for

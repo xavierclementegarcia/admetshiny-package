@@ -16,8 +16,6 @@ A \pkg{ggplot2} object.
 Molecular weight distribution histogram
 }
 \examples{
-\dontrun{
 d <- data.frame(MW = c(300, 400, 500))
 plotMW(d)
-}
 }

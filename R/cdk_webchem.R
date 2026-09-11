@@ -20,6 +20,8 @@
 #'   \code{IUPACName}.
 #' @examples
 #' \dontrun{
+#' # This service requires an internet connection and may experience server outages;
+#'  therefore, it is configured with dontrun (webchem)
 #' ids <- c("aspirin", "ibuprofen")
 #' smiles <- getSmilesFromIdentifiers(ids, from = "name")
 #' }
@@ -79,7 +81,7 @@ getSmilesFromIdentifiers <- function(ids, from = "name") {
 #' @return A data.frame with one row per valid molecule and a \code{SMILES}
 #'   column.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' smiles <- c("CCO", "CC(=O)Oc1ccccc1C(=O)O")
 #' desc <- calcCDKDescriptors(smiles)
 #' }
@@ -255,7 +257,7 @@ calcCDKDescriptors <- function(smiles, which = c(
 #' @return A data.frame with renamed columns, violation columns and ADMET
 #'   properties.
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' smiles <- c("CCO", "CC(=O)Oc1ccccc1C(=O)O")
 #' desc <- calcCDKDescriptors(smiles)
 #' mapped <- mapCDKDescriptors(desc)

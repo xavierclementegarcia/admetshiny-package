@@ -24,6 +24,8 @@ InChIKeys or PubChem CIDs).
 }
 \examples{
 \dontrun{
+# This service requires an internet connection and may experience server outages;
+ therefore, it is configured with dontrun (webchem)
 ids <- c("aspirin", "ibuprofen")
 smiles <- getSmilesFromIdentifiers(ids, from = "name")
 }
