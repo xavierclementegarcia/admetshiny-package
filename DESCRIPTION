@@ -7,7 +7,7 @@ Authors@R:
     person("Xavier Clemente", "Garcia Cevallos", , "xgarcia@unicauca.edu.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-3284-2363"))
 Maintainer: Xavier Clemente Garcia Cevallos <xgarcia@unicauca.edu.co>
-Description: Provides an interactive Shiny application and a toolbox of
+Description: Provides an interactive Shiny application and toolbox of
     R functions for the management, calculation, filtering, visualization and
     exploratory analysis of molecular descriptors and ADMET (Absorption,
     Distribution, Metabolism, Excretion and Toxicity) properties of small
